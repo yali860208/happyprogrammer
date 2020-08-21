@@ -8,7 +8,7 @@ from function.radiation_monitor import get_radiation_info_by_geo
 from function.weather_monitor import get_weather_info_by_geo
 from function.spotify_top_200 import spotify_random
 from function.astro import *
-from function.dcard import *
+from function.dcard import create_dcard_hot_buttoms
 # from function.bus_route import *
 import json
 import twder

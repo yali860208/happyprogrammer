@@ -79,7 +79,7 @@ def create_dcard_hot_buttoms():
     for i in soup.select('article'):
         tempList = []
         try:
-            if i.select('div div span')[4].text in ['??��??']:
+            if i.select('div div span')[4].text in ['回應']:
                 continue
             else:
                 if i.select('div div span')[0].text == '':
@@ -110,5 +110,5 @@ def create_dcard_hot_buttoms():
         template_base['contents'].append(template_card)
     return template_base
 
-# file = open('template.json', mode= 'w' ,encoding='utf-8')
-# json.dump(create_dcard_hot_buttoms(), file, ensure_ascii=False)
+file = open('template.json', mode= 'w' ,encoding='utf-8')
+json.dump(create_dcard_hot_buttoms(), file, ensure_ascii=False)
