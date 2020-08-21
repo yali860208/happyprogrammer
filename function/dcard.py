@@ -74,7 +74,7 @@ def create_dcard_hot_buttoms():
 
     soup = BeautifulSoup(webContent.text, 'html.parser')
     articleList = []
-    index = 1
+    index = 0
 
     for i in soup.select('article'):
         tempList = []
