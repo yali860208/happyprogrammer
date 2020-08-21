@@ -8,6 +8,7 @@ from function.radiation_monitor import get_radiation_info_by_geo
 from function.weather_monitor import get_weather_info_by_geo
 from function.spotify_top_200 import spotify_random
 from function.astro import *
+from function.dcard import *
 # from function.bus_route import *
 import json
 import twder
@@ -17,6 +18,7 @@ from oauth2client.service_account import ServiceAccountCredentials
 from function.email_cer import send_certification_letter
 import random
 from function.pchome import *
+
 
 config = configparser.ConfigParser()
 config.read('config.ini')
@@ -170,6 +172,9 @@ def handle_message(event):
             result = create_pchome_buttoms(userSend)
             message = FlexSendMessage(alt_text='PCHOME', contents = result)
             workSheet_status.update_cell(user_row,4,'no pchome')
+        elif userSend in ['dcard','DCARD','Dcard']:
+            result = create_dcard_hot_buttoms()
+            message = FlexSendMessage(alt_text='DCARD', contents = result)
 
         else:
             message = TextSendMessage(text='聽不懂')
