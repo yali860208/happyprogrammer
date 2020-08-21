@@ -174,8 +174,11 @@ def handle_message(event):
             workSheet_status.update_cell(user_row,4,'no pchome')
 
         elif userSend in ['dcard','DCARD','Dcard']:
-            result = create_dcard_hot_buttoms()
-            message = FlexSendMessage(alt_text='DCARD', contents = result)
+            try:
+                result = create_dcard_hot_buttoms()
+                message = FlexSendMessage(alt_text='DCARD', contents = result)
+            except:
+                message = TextSendMessage(text='dcard壞掉了啦')
 
         else:
             message = TextSendMessage(text='聽不懂')
