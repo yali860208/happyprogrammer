@@ -83,9 +83,9 @@ def create_dcard_hot_buttoms():
                 continue
             else:
                 if i.select('div div span')[0].text == '':
-                    article = i.select('div div span')[4].text + '...'
+                    article = i.select('div div span')[4].text + '....'
                 else:
-                    article = i.select('div div span')[3].text + '...'
+                    article = i.select('div div span')[3].text + '....'
                 title = i.select('h2 a span')[0].text
                 for j in i.select('h2 a'):
                     url = 'https://www.dcard.tw' + j['href']
