@@ -22,7 +22,7 @@ def create_dcard_hot_buttoms():
             "contents": [
               {
                 "type": "text",
-                "text": "我拿哀鳳很了不起⋯？",
+                "text": "標題",
                 "color": "#ffffff",
                 "size": "lg",
                 "weight": "bold"
@@ -43,7 +43,7 @@ def create_dcard_hot_buttoms():
                 "contents": [
                   {
                     "type": "text",
-                    "text": "前段日子發生了一件扯爆的事 比扯鈴還扯（這梗好老 印象深刻 決定發上來跟你各位分享  事情是這樣ㄉ 前陣子的時候我為了準備考試 幾乎每天都去圖書館自修室唸書 那天有兩個看樣子感覺應該是國中年紀的女生拿著書包坐到我旁邊的位置 然後也不辦正經事 在那邊嘰哩呱啦講話 用的是我戴著耳機還聽得到的音量欸 拜託哦我的小姐 要聊不會出去聊完再進來 白目哦 到圖書館不唸書聊天是要待著吸取日月精華膩？",
+                    "text": "內文",
                     "color": "#222222",
                     "size": "xs",
                     "wrap": true
@@ -79,7 +79,7 @@ def create_dcard_hot_buttoms():
     for i in soup.select('article'):
         tempList = []
         try:
-            if i.select('div div span')[4].text in ['回應']:
+            if i.select('div div span')[4].text in ['??��??']:
                 continue
             else:
                 if i.select('div div span')[0].text == '':
@@ -99,11 +99,14 @@ def create_dcard_hot_buttoms():
         except:
             continue
 
-    template_card = copy.deepcopy(raw_template_card)
+    
     for ti,ar,ur in articleList:
+        template_card = copy.deepcopy(raw_template_card)
+
         template_card['header']['contents'][0]['text'] = ti
         template_card['body']['contents'][0]['contents'][0]['text'] = ar
         template_card['body']['action']['uri'] = ur
+
         template_base['contents'].append(template_card)
     return template_base
 
