@@ -172,6 +172,7 @@ def handle_message(event):
             result = create_pchome_buttoms(userSend)
             message = FlexSendMessage(alt_text='PCHOME', contents = result)
             workSheet_status.update_cell(user_row,4,'no pchome')
+
         elif userSend in ['dcard','DCARD','Dcard']:
             result = create_dcard_hot_buttoms()
             message = FlexSendMessage(alt_text='DCARD', contents = result)
