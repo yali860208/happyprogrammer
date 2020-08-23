@@ -4,7 +4,45 @@ from linebot.models import *
 import json
 import copy
 
-def create_dcard_hot_buttoms():
+def dcard_ban_list():
+    url = 'https://www.dcard.tw/forum/popular'
+    webContent = requests.get(url)
+    webContent.encoding = 'UTF-8'
+    soup = BeautifulSoup(webContent.text, 'html.parser')
+    
+    urlList = []
+    banList = []
+    urlList.append('https://www.dcard.tw/f')
+    banList.append('熱門')
+
+    for i in soup.select('a')[6:14]:
+        urlList.append('https://www.dcard.tw'+i['href'])
+        banList.append(i.select('div div')[0].text)
+    return banList, urlList
+
+
+def create_dcard_quick_replyButtons():
+    banList, urlList = dcard_ban_list()
+    itemList = []
+    for ban in banList:
+        itemList.append(
+            QuickReplyButton(
+                action=PostbackAction(
+                    label=ban,
+                    data=ban
+                    )
+                )
+            )
+
+    message = TextSendMessage(
+    text='選擇Dcard熱門看板',
+    quick_reply=QuickReply(
+        items=itemList
+        )
+    )
+    return message
+
+def create_dcard_hot_buttoms(ban):
     template_base = json.loads('''
         {
             "type": "carousel",
@@ -23,12 +61,12 @@ def create_dcard_hot_buttoms():
               {
                 "type": "text",
                 "text": "標題",
-                "color": "#ffffff",
+                "color": "#222222",
                 "size": "lg",
                 "weight": "bold"
               }
             ],
-            "backgroundColor": "#27ACB2",
+            "backgroundColor": "#D3A4FF",
             "paddingTop": "19px",
             "paddingAll": "12px",
             "paddingBottom": "16px"
@@ -67,8 +105,9 @@ def create_dcard_hot_buttoms():
           }
         }
     ''')
-    
-    url = 'https://www.dcard.tw/f'
+    banList, urlList = dcard_ban_list()
+    ban_index = banList.index(ban)
+    url = urlList[ban_index]
     webContent = requests.get(url)
     webContent.encoding = 'UTF-8'
 
@@ -78,26 +117,26 @@ def create_dcard_hot_buttoms():
 
     for i in soup.select('article'):
         tempList = []
-        try:
-            if i.select('div div span')[4].text in ['回應']:
-                continue
-            else:
-                if i.select('div div span')[0].text == '':
-                    article = i.select('div div span')[4].text + '....'
-                else:
-                    article = i.select('div div span')[3].text + '....'
-                title = i.select('h2 a span')[0].text
-                for j in i.select('h2 a'):
-                    url = 'https://www.dcard.tw' + j['href']
-                tempList.append(title)
-                tempList.append(article)
-                tempList.append(url)
-                index += 1
-                articleList.append(tempList)
-            if index > 10:
-                break
-        except:
+        article = i.select('div div')[5].text
+        if article == '置頂':
             continue
+        else:
+            pass
+        if article.isdigit() == False:
+            pass
+        else:
+            article = i.select('div div')[4].text
+        title = i.select('h2 a span')[0].text
+        for j in i.select('h2 a'):
+            url = 'https://www.dcard.tw' + j['href']
+  
+        tempList.append(title)
+        tempList.append(article)
+        tempList.append(url)
+        index += 1
+        articleList.append(tempList)
+        if index > 9:
+            break
 
     
     for ti,ar,ur in articleList:
@@ -110,5 +149,5 @@ def create_dcard_hot_buttoms():
         template_base['contents'].append(template_card)
     return template_base
 
-file = open('template.json', mode= 'w' ,encoding='utf-8')
-json.dump(create_dcard_hot_buttoms(), file, ensure_ascii=False)
+# file = open('template.json', mode= 'w' ,encoding='utf-8')
+# json.dump(create_dcard_hot_buttoms('YouTuber'), file, ensure_ascii=False)

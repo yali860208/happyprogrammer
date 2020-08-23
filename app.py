@@ -8,7 +8,9 @@ from function.radiation_monitor import get_radiation_info_by_geo
 from function.weather_monitor import get_weather_info_by_geo
 from function.spotify_top_200 import spotify_random
 from function.astro import *
-from function.dcard import create_dcard_hot_buttoms
+from function.pchome import *
+from function.dcard_ban import *
+from function.worldcup import *
 # from function.bus_route import *
 import json
 import twder
@@ -17,8 +19,6 @@ import gspread
 from oauth2client.service_account import ServiceAccountCredentials
 from function.email_cer import send_certification_letter
 import random
-from function.pchome import *
-
 
 config = configparser.ConfigParser()
 config.read('config.ini')
@@ -30,6 +30,7 @@ client = gspread.authorize(creds)
 spreadSheet = client.open('hp2020linebot')
 workSheet_user = spreadSheet.worksheet('user')
 workSheet_status = spreadSheet.worksheet('status')
+workSheet_worldcup = spreadSheet.worksheet('worldcup')
 
 app = Flask(__name__)
 app.config['DEBUG'] = True
@@ -135,6 +136,7 @@ def handle_error_message(e):
 def handle_postback_message(event):
     user_row, user_col, user_status, userID, user_pchome = get_user_info_from_gsheet(event)
     userSend = event.postback.data
+    banList, urlList = dcard_ban_list()
     if userSend in ['牡羊座','金牛座','雙子座','巨蟹座','獅子座','處女座','天秤座','天蠍座','射手座','摩羯座','水瓶座','雙魚座']:
         #message = TextSendMessage(text=userSend+'\n'+get_astro_info(userSend))
         result = get_astro_info(userSend)
@@ -142,8 +144,16 @@ def handle_postback_message(event):
     elif userSend == 'birthday':
         birthday = event.postback.params['date']
         message = user_register_flow(user_row, user_col, user_status, userID, birthday)
+    elif userSend in banList:
+        result = create_dcard_hot_buttoms(userSend)
+        message = FlexSendMessage(alt_text='Dcard熱門文章', contents = result)
+    elif userSend in workSheet_worldcup.col_values(1):
+        result = create_worldcup_bubble(userSend, user_row)[0]
+        message = FlexSendMessage(alt_text='理想型世界盃', contents = result)[0]
+        print(create_worldcup_bubble(userSend, user_row)[1])
 
     line_bot_api.reply_message(event.reply_token, message)
+
 
 
 @handler.add(MessageEvent, message=TextMessage)
@@ -174,12 +184,10 @@ def handle_message(event):
             workSheet_status.update_cell(user_row,4,'no pchome')
 
         elif userSend in ['dcard','DCARD','Dcard']:
-            try:
-                result = create_dcard_hot_buttoms()
-                message = FlexSendMessage(alt_text='DCARD', contents = result)
-            except:
-                message = TextSendMessage(text='dcard壞掉了啦')
+            message = create_dcard_quick_replyButtons()
 
+        elif userSend in ['理想型','worldcup','二選一']:
+            message = create_worldcup_quick_replyButtons()
         else:
             message = TextSendMessage(text='聽不懂')
     line_bot_api.reply_message(event.reply_token, message)
@@ -213,8 +221,10 @@ def handle_location_message(event):
     line_bot_api.reply_message(event.reply_token, message)
 
 if __name__ == "__main__":
-    #app.run(port=5000)一般
+    # 一般
+    # app.run(port=5000)
+    # 連到heroku
     import os
     port = int(os.environ.get('PORT', 5000))
     app.run(host='0.0.0.0', port=port)
-    #連到heroku
+    
