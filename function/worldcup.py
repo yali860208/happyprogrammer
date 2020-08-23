@@ -4,6 +4,7 @@ from linebot.models import *
 import json
 import copy
 import gspread
+import random
 from oauth2client.service_account import ServiceAccountCredentials
 
 def create_worldcup_quick_replyButtons():
