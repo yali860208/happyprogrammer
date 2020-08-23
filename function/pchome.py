@@ -3,8 +3,6 @@ from linebot.models import *
 import json
 import copy
 
-url = 'https://ecshweb.pchome.com.tw/search/v3.3/all/results'
-
 def create_pchome_buttoms(name):
     template_base = json.loads('''
         {
@@ -71,7 +69,7 @@ def create_pchome_buttoms(name):
     ''')
 
 
-
+    url = 'https://ecshweb.pchome.com.tw/search/v3.3/all/results'
     data = {
             'q':name,
             'page':'1',

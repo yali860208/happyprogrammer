@@ -5,7 +5,6 @@ import json
 import copy
 import gspread
 from oauth2client.service_account import ServiceAccountCredentials
-from app import get_user_info_from_gsheet
 
 def create_worldcup_quick_replyButtons():
     itemList = []
@@ -26,7 +25,7 @@ def create_worldcup_quick_replyButtons():
     )
     return message
 
-def create_worldcup_bubble(theme):
+def create_worldcup_bubble(theme, user_row):
     template_base = json.loads('''
       {
         "type": "carousel",
@@ -98,7 +97,7 @@ def create_worldcup_bubble(theme):
 
     workSheet_status = spreadSheet.worksheet('status')
     workSheet_worldcup = spreadSheet.worksheet('worldcup')
-    user_row = get_user_info_from_gsheet(event)[0]
+    user_row = user_row
     status_col = 5
     world_col = 2
     world_row = workSheet_worldcup.find(theme).row+1

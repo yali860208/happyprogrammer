@@ -7,17 +7,37 @@ import gspread
 import random
 from oauth2client.service_account import ServiceAccountCredentials
 
+url = 'https://www.dcard.tw/f'
+webContent = requests.get(url)
+webContent.encoding = 'UTF-8'
 
+soup = BeautifulSoup(webContent.text, 'html.parser')
+articleList = []
+index = 0
 
-scope=['https://spreadsheets.google.com/feeds','https://www.googleapis.com/auth/drive']
-creds = ServiceAccountCredentials.from_json_keyfile_name('My First Project-e46ee2dd4299.json',scope)
-client = gspread.authorize(creds)
-spreadSheet = client.open('hp2020linebot')
+for i in soup.select('article'):
+    tempList = []
+    article = i.select('div div')[5].text
+    if article == '置頂':
+        continue
+    else:
+        pass
+    if article.isdigit() == False:
+        pass
+    else:
+        article = i.select('div div')[4].text
+    print(article)
+    print('-----------------')
 
-workSheet_status = spreadSheet.worksheet('status')
-workSheet_worldcup = spreadSheet.worksheet('worldcup')
-for i in workSheet_worldcup.col_values(1):
-    print(i)
+# scope=['https://spreadsheets.google.com/feeds','https://www.googleapis.com/auth/drive']
+# creds = ServiceAccountCredentials.from_json_keyfile_name('My First Project-e46ee2dd4299.json',scope)
+# client = gspread.authorize(creds)
+# spreadSheet = client.open('hp2020linebot')
+
+# workSheet_status = spreadSheet.worksheet('status')
+# workSheet_worldcup = spreadSheet.worksheet('worldcup')
+# for i in workSheet_worldcup.col_values(1):
+#     print(i)
     # for j in i:
         # for k in j:
             # print(k)

@@ -149,7 +149,7 @@ def handle_postback_message(event):
         message = FlexSendMessage(alt_text='Dcard熱門文章', contents = result)
     elif userSend in workSheet_worldcup.col_values(1):
         result = create_worldcup_bubble(userSend, user_row)[0]
-        message = FlexSendMessage(alt_text='理想型世界盃', contents = result)[0]
+        message = FlexSendMessage(alt_text='理想型世界盃', contents = result)
         print(create_worldcup_bubble(userSend, user_row)[1])
 
     line_bot_api.reply_message(event.reply_token, message)
