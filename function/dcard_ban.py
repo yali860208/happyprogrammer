@@ -143,6 +143,9 @@ def create_dcard_hot_buttoms(ban):
     
     for ti,ar,ur in articleList:
         template_card = copy.deepcopy(raw_template_card)
+        print(ti)
+        print(ar)
+        print(ur)
 
         template_card['header']['contents'][0]['text'] = ti
         template_card['body']['contents'][0]['contents'][0]['text'] = ar
