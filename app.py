@@ -25,7 +25,7 @@ config.read('config.ini')
 access_token = config['LINE']['ACCESS_TOKEN']
 secret = config['LINE']['SECRET']
 scope=['https://spreadsheets.google.com/feeds','https://www.googleapis.com/auth/drive']
-creds = ServiceAccountCredentials.from_json_keyfile_name('My First Project-e46ee2dd4299.json',scope)
+creds = ServiceAccountCredentials.from_json_keyfile_name('HP2020-6545eb07aff6.json',scope)
 client = gspread.authorize(creds)
 spreadSheet = client.open('hp2020linebot')
 workSheet_user = spreadSheet.worksheet('user')
@@ -150,7 +150,6 @@ def handle_postback_message(event):
     elif userSend in workSheet_worldcup.col_values(1):
         result = create_worldcup_bubble(userSend, user_row)[0]
         message = FlexSendMessage(alt_text='理想型世界盃', contents = result)
-        print(create_worldcup_bubble(userSend, user_row)[1])
 
     line_bot_api.reply_message(event.reply_token, message)
 
@@ -225,6 +224,6 @@ if __name__ == "__main__":
     # app.run(port=5000)
     # 連到heroku
     import os
-    port = int(os.environ.get('PORT', 5000))
+    port = int(os.environ.egt('PORT', 5000))
     app.run(host='0.0.0.0', port=port)
     

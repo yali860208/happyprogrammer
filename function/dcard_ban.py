@@ -3,6 +3,7 @@ from bs4 import BeautifulSoup
 from linebot.models import *
 import json
 import copy
+import time
 
 def dcard_ban_list():
     url = 'https://www.dcard.tw/forum/popular'
@@ -129,12 +130,13 @@ def create_dcard_hot_buttoms(ban):
         title = i.select('h2 a span')[0].text
         for j in i.select('h2 a'):
             url = 'https://www.dcard.tw' + j['href']
-  
+        time.sleep(0.5)
         tempList.append(title)
         tempList.append(article)
         tempList.append(url)
         index += 1
         articleList.append(tempList)
+        
         if index > 9:
             break
 
@@ -144,10 +146,13 @@ def create_dcard_hot_buttoms(ban):
 
         template_card['header']['contents'][0]['text'] = ti
         template_card['body']['contents'][0]['contents'][0]['text'] = ar
-        template_card['body']['action']['uri'] = ur
+        template_card['body']['action']['uri'] =ur 
 
         template_base['contents'].append(template_card)
+        time.sleep(0.5)
     return template_base
+
+# print(create_dcard_hot_buttoms('心情'))
 
 # file = open('template.json', mode= 'w' ,encoding='utf-8')
 # json.dump(create_dcard_hot_buttoms('YouTuber'), file, ensure_ascii=False)

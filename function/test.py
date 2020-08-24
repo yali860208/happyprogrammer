@@ -3,11 +3,114 @@ from bs4 import BeautifulSoup
 from linebot.models import *
 import json
 import copy
-import gspread
-import random
-from oauth2client.service_account import ServiceAccountCredentials
 
-url = 'https://www.dcard.tw/f'
+
+def dcard_ban_list():
+    url = 'https://www.dcard.tw/forum/popular'
+    webContent = requests.get(url)
+    webContent.encoding = 'UTF-8'
+    soup = BeautifulSoup(webContent.text, 'html.parser')
+    
+    urlList = []
+    banList = []
+    urlList.append('https://www.dcard.tw/f')
+    banList.append('熱門')
+
+    for i in soup.select('a')[6:14]:
+        urlList.append('https://www.dcard.tw'+i['href'])
+        banList.append(i.select('div div')[0].text)
+    return banList, urlList
+
+
+# def create_dcard_quick_replyButtons():
+#     banList, urlList = dcard_ban_list()
+#     itemList = []
+#     for ban in banList:
+#         itemList.append(
+#             QuickReplyButton(
+#                 action=PostbackAction(
+#                     label=ban,
+#                     data=ban
+#                     )
+#                 )
+#             )
+
+#     message = TextSendMessage(
+#     text='選擇Dcard熱門看板',
+#     quick_reply=QuickReply(
+#         items=itemList
+#         )
+#     )
+#     return message
+
+# def create_dcard_hot_buttoms(ban):
+#     template_base = json.loads('''
+#         {
+#             "type": "carousel",
+#             "contents": []
+#         }
+#     ''')
+
+#     raw_template_card = json.loads('''
+#         {
+#           "type": "bubble",
+#           "size": "kilo",
+#           "header": {
+#             "type": "box",
+#             "layout": "vertical",
+#             "contents": [
+#               {
+#                 "type": "text",
+#                 "text": "標題",
+#                 "color": "#222222",
+#                 "size": "lg",
+#                 "weight": "bold"
+#               }
+#             ],
+#             "backgroundColor": "#D3A4FF",
+#             "paddingTop": "19px",
+#             "paddingAll": "12px",
+#             "paddingBottom": "16px"
+#           },
+#           "body": {
+#             "type": "box",
+#             "layout": "vertical",
+#             "contents": [
+#               {
+#                 "type": "box",
+#                 "layout": "horizontal",
+#                 "contents": [
+#                   {
+#                     "type": "text",
+#                     "text": "內文",
+#                     "color": "#222222",
+#                     "size": "xs",
+#                     "wrap": true
+#                   }
+#                 ],
+#                 "flex": 1
+#               }
+#             ],
+#             "spacing": "md",
+#             "paddingAll": "12px",
+#             "action": {
+#               "type": "uri",
+#               "label": "action",
+#               "uri": "http://linecorp.com/"
+#             }
+#           },
+#           "styles": {
+#             "footer": {
+#               "separator": false
+#             }
+#           }
+#         }
+#     ''')
+
+
+banList, urlList = dcard_ban_list()
+ban_index = banList.index('心情')
+url = urlList[ban_index]
 webContent = requests.get(url)
 webContent.encoding = 'UTF-8'
 
@@ -26,50 +129,23 @@ for i in soup.select('article'):
         pass
     else:
         article = i.select('div div')[4].text
-    print(article)
-    print('-----------------')
+    title = i.select('h2 a span')[0].text
+    for j in i.select('h2 a'):
+        url = 'https://www.dcard.tw' + j['href']
 
-# scope=['https://spreadsheets.google.com/feeds','https://www.googleapis.com/auth/drive']
-# creds = ServiceAccountCredentials.from_json_keyfile_name('My First Project-e46ee2dd4299.json',scope)
-# client = gspread.authorize(creds)
-# spreadSheet = client.open('hp2020linebot')
+    tempList.append(title)
+    tempList.append(article)
+    tempList.append(url)
+    index += 1
+    articleList.append(tempList)
+    if index > 9:
+        break
 
-# workSheet_status = spreadSheet.worksheet('status')
-# workSheet_worldcup = spreadSheet.worksheet('worldcup')
-# for i in workSheet_worldcup.col_values(1):
-#     print(i)
-    # for j in i:
-        # for k in j:
-            # print(k)
-    # user_row = get_user_info_from_gsheet(event)[0]
-    # user_row = 1
-    # status_col = 5
-    # world_col = 2
-    # world_row = workSheet_worldcup.find(theme).row+1
-    # nameList = []
-    # while world_col <= 9:
-    #     name = workSheet_worldcup.cell(1,world_col).value
-    #     nameList.append(name)
-    #     workSheet_status.update_cell(user_row,status_col,name)
-    #     status_col += 1
-    #     world_col += 1
-    # random.shuffle(nameList)
-    # i = 0
-    # pickone_nameList = []
-    # while i <= 6:
-    #     for cell in nameList[i:i+2]:
-    #         template_card = copy.deepcopy(raw_template_card)
-    #         name_col = workSheet_worldcup.find(cell).col
-    #         url = workSheet_worldcup.cell(2,name_col).value
 
-    #         template_card['body']['contents'][2]['contents'][0]['text'] = cell
-    #         template_card['body']['contents'][0]['url'] = url
-    #         template_card['action']['data'] = pickone_nameList.append(cell)
-
-    #         template_base['contents'].append(template_card)
-    #     i += 2
-    # pickone = ''
-    # for pickone_name in pickone_nameList:
-    #     pickone += pickone_name
-
-    # return pickone
+for ti,ar,ur in articleList:
+    print(ti)
+    print('\n')
+    print(ar)
+    print('\n')
+    print(ur)
+    print('----------------')
