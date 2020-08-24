@@ -165,7 +165,7 @@ def handle_message(event):
     elif user_status == '已註冊':
         if userSend in ['music','音樂','Music']:
             message = TemplateSendMessage(
-                    alt_text='隨機從Spotify top 200 取10首歌',
+                    alt_text='隨機從Spotify top 200 取10首歌~',
                     template=CarouselTemplate(
                         columns=spotify_random()
                     )
