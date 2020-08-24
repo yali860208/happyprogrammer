@@ -68,7 +68,7 @@ def user_register_flow(user_row, user_col, user_status, userID, userSend):
         workSheet_user.update_cell(user_row,2,userSend)
         workSheet_status.update_cell(user_row,2,'註冊中-2')
         message = TextSendMessage(
-            text='請到手機上選擇日期!!',
+            text='請到手機上選擇日期',
             quick_reply=QuickReply(
                 items=[
                     QuickReplyButton(
@@ -88,7 +88,7 @@ def user_register_flow(user_row, user_col, user_status, userID, userSend):
     elif user_status == '註冊中-2':
         workSheet_user.update_cell(user_row,3,userSend)
         workSheet_status.update_cell(user_row,2,'註冊中-3')
-        message = TextSendMessage(text='請輸入你的電子郵件!')
+        message = TextSendMessage(text='請輸入你的電子郵件')
 
     elif user_status == '註冊中-3':
         workSheet_user.update_cell(user_row,4,userSend)
