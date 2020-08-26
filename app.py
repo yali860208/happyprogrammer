@@ -118,10 +118,9 @@ def worldcupflow(user_worldcup, userSend, user_row):
     nameB = nameList[1]
     result = create_worldcup_bubble(nameA, nameB)
     message = FlexSendMessage(alt_text='理想型世界盃', contents = result)
-    
+
     nameList.remove(nameA)
     nameList.remove(nameB)
-    workSheet_worldcupA.delete_row(user_row)
     workSheet_worldcupA.append_row(nameList,value_input_option=user_row)
     
 

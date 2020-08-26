@@ -59,13 +59,35 @@ def start_worldcup(user_worldcup, userSend, user_row):
             if i != '':
                 nameList.append(i)
         workSheet_worldcupA.append_row(nameList,value_input_option=user_row)
-        workSheet_status.update_cell(user_row,5,'round 1')
-    else:
+        workSheet_status.update_cell(user_row,5,'1-1')
+    elif user_worldcup == '1-1':
         nameList = []
         for i in workSheet_worldcupA.row_values(worldQ_name)[1:]:
             if i != '':
                 nameList.append(i)
-        workSheet_status.append_row(userSend,value_input_option=user_row,insert_data_option='INSERT_ROWS')
+        workSheet_status.update_cell(user_row+1,1,userSend)
+        workSheet_status.update_cell(user_row,5,'1-2')
+    elif user_worldcup == '1-2':
+        nameList = []
+        for i in workSheet_worldcupA.row_values(worldQ_name)[1:]:
+            if i != '':
+                nameList.append(i)
+        workSheet_status.update_cell(user_row+1,2,userSend)
+        workSheet_status.update_cell(user_row,5,'1-3')
+    elif user_worldcup == '1-3':
+        nameList = []
+        for i in workSheet_worldcupA.row_values(worldQ_name)[1:]:
+            if i != '':
+                nameList.append(i)
+        workSheet_status.update_cell(user_row+1,3,userSend)
+        workSheet_status.update_cell(user_row,5,'1-4')
+    elif user_worldcup == '1-4':
+        nameList = []
+        for i in workSheet_worldcupA.row_values(worldQ_name)[1:]:
+            if i != '':
+                nameList.append(i)
+        workSheet_status.update_cell(user_row+1,4,userSend)
+        workSheet_status.update_cell(user_row,5,'2-1')
     return nameList
 
 
