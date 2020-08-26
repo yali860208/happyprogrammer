@@ -69,7 +69,7 @@ def user_register_flow(user_row, user_col, user_status, userID, userSend):
         workSheet_user.update_cell(user_row,2,userSend)
         workSheet_status.update_cell(user_row,2,'註冊中-2')
         message = TextSendMessage(
-            text='請到手機上選擇日期',
+            text='請到手機上選擇日期~',
             quick_reply=QuickReply(
                 items=[
                     QuickReplyButton(
