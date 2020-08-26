@@ -132,6 +132,8 @@ def create_worldcup_bubble(nameA,nameB):
           }
         }
     ''')
+
+    workSheet_status,workSheet_worldcupQ,workSheet_worldcupA = importworksheet()
     for cell in [nameA,nameB]:
         template_card = copy.deepcopy(raw_template_card)
         name_col = workSheet_worldcupQ.find(cell).col
