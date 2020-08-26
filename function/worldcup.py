@@ -51,8 +51,8 @@ def themeList():
 def start_worldcup(user_worldcup, userSend, user_row):
     workSheet_status,workSheet_worldcupQ,workSheet_worldcupA = importworksheet()
     user_row = user_row
-    worldQ_name = workSheet_worldcupQ.find(theme).row
-    worldQ_url = workSheet_worldcupQ.find(theme).row + 1
+    worldQ_name = workSheet_worldcupQ.find(userSend).row
+    worldQ_url = workSheet_worldcupQ.find(userSend).row + 1
     if user_worldcup == 'start':
         nameList = []
         for i in workSheet_worldcupQ.row_values(worldQ_name)[1:]:
@@ -65,12 +65,6 @@ def start_worldcup(user_worldcup, userSend, user_row):
         for i in workSheet_worldcupQ.row_values(worldQ_name)[1:]:
             if i != '':
                 nameList.append(i)
-    return nameList
-
-
-
-
-
     return nameList
 
 
