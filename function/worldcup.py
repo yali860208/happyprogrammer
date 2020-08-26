@@ -137,7 +137,8 @@ def create_worldcup_bubble(nameA,nameB):
     for cell in [nameA,nameB]:
         template_card = copy.deepcopy(raw_template_card)
         name_col = workSheet_worldcupQ.find(cell).col
-        url = workSheet_worldcupQ.cell(world_row,name_col).value
+        name_row = workSheet_worldcupQ.find(cell).row
+        url = workSheet_worldcupQ.cell(name_row + 1,name_col).value
 
         template_card['body']['contents'][2]['contents'][0]['text'] = cell
         template_card['body']['contents'][0]['url'] = url
