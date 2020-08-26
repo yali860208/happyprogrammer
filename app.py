@@ -118,10 +118,11 @@ def worldcupflow(user_worldcup, userSend, user_row):
     nameB = nameList[1]
     nameList.remove(nameA)
     nameList.remove(nameB)
-    workSheet_worldcupA.append_row(nameList,value_input_option=user_row,insert_data_option='INSERT_ROWS')
+    workSheet_worldcupA.delete_row(user_row)
+    workSheet_worldcupA.append_row(nameList,value_input_option=user_row)
     result = create_worldcup_bubble(nameA, nameB)
     message = FlexSendMessage(alt_text='理想型世界盃', contents = result)
-The new data overwrites existing data in the areas it is written. (Note: adding data to the end of the sheet will still insert new rows or columns so the data can be written.)
+
     return message
 
 
