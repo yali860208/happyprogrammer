@@ -119,7 +119,7 @@ def worldcupflow(user_worldcup, userSend, user_row):
     nameB = nameList[1]
     nameList.remove(nameA)
     nameList.remove(nameB)
-    workSheet_worldcupA.append_row(nameList,value_input_option=user_row)
+    workSheet_worldcupA.append_row(nameList,value_input_option=user_row,insert_data_option='OVERWRITE')
     result = create_worldcup_bubble(nameA, nameB)
     message = FlexSendMessage(alt_text='理想型世界盃', contents = result)
 
@@ -169,8 +169,7 @@ def handle_postback_message(event):
             result = create_dcard_hot_buttoms(userSend)
             message = FlexSendMessage(alt_text='Dcard熱門文章', contents = result)
     else:
-        if userSend in themeList():
-            message = worldcupflow(user_worldcup,userSend,user_row)
+        message = worldcupflow(user_worldcup,userSend,user_row)
         
 
     line_bot_api.reply_message(event.reply_token, message)
