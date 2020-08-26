@@ -216,7 +216,7 @@ def handle_message(event):
 
 @handler.add(MessageEvent, message=StickerMessage)
 def handle_sticker_message(event):
-    user_row, user_col, user_status, userID, user_pchome = get_user_info_from_gsheet(event)
+    user_row, user_col, user_status, userID, user_pchome, user_worldcup = get_user_info_from_gsheet(event)
 
     if user_status != '已註冊':
         userSend = ''
