@@ -30,7 +30,6 @@ client = gspread.authorize(creds)
 spreadSheet = client.open('hp2020linebot')
 workSheet_user = spreadSheet.worksheet('user')
 workSheet_status = spreadSheet.worksheet('status')
-workSheet_worldcup = spreadSheet.worksheet('worldcup')
 
 app = Flask(__name__)
 app.config['DEBUG'] = True
@@ -53,11 +52,13 @@ def get_user_info_from_gsheet(event):
         user_row = cell.row
         user_col = cell.col
         workSheet_status.update_cell(user_row,4,'no pchome')
+        workSheet_status.update_cell(user_row,5,'no worldcup')
+        user_worldcup = workSheet_status.cell(user_row,5).value
         user_status = workSheet_status.cell(user_row,2).value
         user_pchome = workSheet_status.cell(user_row,4).value
 
 
-    return user_row, user_col, user_status, userID, user_pchome
+    return user_row, user_col, user_status, userID, user_pchome, user_worldcup
 
 def user_register_flow(user_row, user_col, user_status, userID, userSend):
     if user_status == '未註冊':
@@ -107,6 +108,24 @@ def user_register_flow(user_row, user_col, user_status, userID, userSend):
             message = TextSendMessage(text='認證錯誤，請重新認證碼')
     return message
 
+def worldcupflow(user_worldcup, userSend, user_row):
+    try:
+        nameList = start_worldcup(user_worldcup, userSend, user_row)
+        random.shuffle(nameList)
+        nameA = nameList[0]
+        nameB = nameList[1]
+        nameList.pop(nameA)
+        nameList.pop(nameB)
+        workSheet_worldcupA.append_row(nameList,value_input_option=user_row)
+        result = create_worldcup_bubble(nameA, nameB)
+        message = FlexSendMessage(alt_text='理想型世界盃', contents = result)
+    except:
+        message = TextSendMessage(text='第一層選完惹')
+
+    return message
+
+
+
 @app.route("/callback", methods=['POST'])
 def callback():
     signature = request.headers['X-Line-Signature']
@@ -134,22 +153,24 @@ def handle_error_message(e):
 
 @handler.add(PostbackEvent)
 def handle_postback_message(event):
-    user_row, user_col, user_status, userID, user_pchome = get_user_info_from_gsheet(event)
+    user_row, user_col, user_status, userID, user_pchome, user_worldcup = get_user_info_from_gsheet(event)
     userSend = event.postback.data
     banList, urlList = dcard_ban_list()
-    if userSend in ['牡羊座','金牛座','雙子座','巨蟹座','獅子座','處女座','天秤座','天蠍座','射手座','摩羯座','水瓶座','雙魚座']:
-        #message = TextSendMessage(text=userSend+'\n'+get_astro_info(userSend))
-        result = get_astro_info(userSend)
-        message = FlexSendMessage(alt_text='星座運勢小卡', contents = result)
-    elif userSend == 'birthday':
-        birthday = event.postback.params['date']
-        message = user_register_flow(user_row, user_col, user_status, userID, birthday)
-    elif userSend in banList:
-        result = create_dcard_hot_buttoms(userSend)
-        message = FlexSendMessage(alt_text='Dcard熱門文章', contents = result)
-    elif userSend in workSheet_worldcup.col_values(1):
-        result = create_worldcup_bubble(userSend, user_row)[0]
-        message = FlexSendMessage(alt_text='理想型世界盃', contents = result)
+    if user_worldcup == 'no worldcup' :
+        if userSend in ['牡羊座','金牛座','雙子座','巨蟹座','獅子座','處女座','天秤座','天蠍座','射手座','摩羯座','水瓶座','雙魚座']:
+            #message = TextSendMessage(text=userSend+'\n'+get_astro_info(userSend))
+            result = get_astro_info(userSend)
+            message = FlexSendMessage(alt_text='星座運勢小卡', contents = result)
+        elif userSend == 'birthday':
+            birthday = event.postback.params['date']
+            message = user_register_flow(user_row, user_col, user_status, userID, birthday)
+        elif userSend in banList:
+            result = create_dcard_hot_buttoms(userSend)
+            message = FlexSendMessage(alt_text='Dcard熱門文章', contents = result)
+    else:
+        if userSend in themeList():
+            message = worldcupflow(user_worldcup,userSend,user_row)
+        
 
     line_bot_api.reply_message(event.reply_token, message)
 
@@ -157,7 +178,7 @@ def handle_postback_message(event):
 
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
-    user_row, user_col, user_status, userID, user_pchome = get_user_info_from_gsheet(event)
+    user_row, user_col, user_status, userID, user_pchome, user_worldcup = get_user_info_from_gsheet(event)
     userSend = event.message.text
     if user_status != '已註冊':
         message = user_register_flow(user_row, user_col, user_status, userID, userSend)
@@ -186,6 +207,7 @@ def handle_message(event):
             message = create_dcard_quick_replyButtons()
 
         elif userSend in ['理想型','worldcup','二選一']:
+            workSheet_status.update_cell(user_row,5,'start')
             message = create_worldcup_quick_replyButtons()
         else:
             message = TextSendMessage(text='聽不懂')
