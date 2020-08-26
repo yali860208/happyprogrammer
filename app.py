@@ -113,11 +113,11 @@ def user_register_flow(user_row, user_col, user_status, userID, userSend):
 
 def worldcupflow(user_worldcup, userSend, user_row):
     nameList = start_worldcup(user_worldcup, userSend, user_row)
+    random.shuffle(nameList)
     nameA = nameList[0]
     nameB = nameList[1]
     nameList.remove(nameA)
     nameList.remove(nameB)
-    random.shuffle(nameList)
     workSheet_worldcupA.append_row(nameList,value_input_option=user_row,insert_data_option='OVERWRITE')
     result = create_worldcup_bubble(nameA, nameB)
     message = FlexSendMessage(alt_text='理想型世界盃', contents = result)
