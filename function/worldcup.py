@@ -59,7 +59,7 @@ def start_worldcup(user_worldcup, userSend, user_row):
             if i != '':
                 nameList.append(i)
         workSheet_worldcupA.append_row(nameList,value_input_option=user_row)
-        user_worldcup = 'round 1'
+        workSheet_status.update_cell(user_row,5,'round 1')
     else:
         nameList = []
         for i in workSheet_worldcupQ.row_values(worldQ_name)[1:]:
