@@ -112,7 +112,6 @@ def user_register_flow(user_row, user_col, user_status, userID, userSend):
     return message
 
 def worldcupflow(user_worldcup, userSend, user_row):
-
     nameList = start_worldcup(user_worldcup, userSend, user_row)
     random.shuffle(nameList)
     nameA = nameList[0]
@@ -162,10 +161,10 @@ def handle_postback_message(event):
             #message = TextSendMessage(text=userSend+'\n'+get_astro_info(userSend))
             result = get_astro_info(userSend)
             message = FlexSendMessage(alt_text='星座運勢小卡', contents = result)
-        elif userSend == 'birthday':
+        if userSend == 'birthday':
             birthday = event.postback.params['date']
             message = user_register_flow(user_row, user_col, user_status, userID, birthday)
-        elif userSend in banList:
+        if userSend in banList:
             result = create_dcard_hot_buttoms(userSend)
             message = FlexSendMessage(alt_text='Dcard熱門文章', contents = result)
     else:
