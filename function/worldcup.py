@@ -163,7 +163,8 @@ def create_worldcup_bubble(nameList):
     nameB = nameList[1]
     nameList.remove(nameA)
     nameList.remove(nameB)
-    workSheet_worldcupA.append_row(nameList,value_input_option=user_row)
+    workSheet_worldcupA.delete_row(1)
+    workSheet_worldcupA.append_row(nameList,value_input_option=1)
     for cell in [nameA,nameB]:
         template_card = copy.deepcopy(raw_template_card)
         name_col = workSheet_worldcupQ.find(cell).col
