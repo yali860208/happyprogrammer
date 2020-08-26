@@ -22,7 +22,7 @@ def importworksheet():
 def create_worldcup_quick_replyButtons():
     theme_list = themeList()
     itemList = []
-    for theme in themeList:
+    for theme in theme_list:
         itemList.append(
             QuickReplyButton(
                 action=PostbackAction(
