@@ -45,6 +45,7 @@ def get_user_info_from_gsheet(event):
         user_col = cell.col
         user_status = workSheet_status.cell(user_row,2).value
         user_pchome = workSheet_status.cell(user_row,4).value
+        user_worldcup = workSheet_status.cell(user_row,5).value
     except:
         workSheet_status.append_row([userID,'未註冊'])
         workSheet_user.append_row([userID])
