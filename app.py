@@ -156,7 +156,7 @@ def handle_postback_message(event):
     user_row, user_col, user_status, userID, user_pchome, user_worldcup = get_user_info_from_gsheet(event)
     userSend = event.postback.data
     banList, urlList = dcard_ban_list()
-    if user_worldcup == 'no worldcup' :
+    if user_worldcup != 'finish' :
         if userSend in ['牡羊座','金牛座','雙子座','巨蟹座','獅子座','處女座','天秤座','天蠍座','射手座','摩羯座','水瓶座','雙魚座']:
             #message = TextSendMessage(text=userSend+'\n'+get_astro_info(userSend))
             result = get_astro_info(userSend)
