@@ -30,6 +30,8 @@ client = gspread.authorize(creds)
 spreadSheet = client.open('hp2020linebot')
 workSheet_user = spreadSheet.worksheet('user')
 workSheet_status = spreadSheet.worksheet('status')
+workSheet_worldcupQ = spreadSheet.worksheet('worldcupQ')
+workSheet_worldcupA = spreadSheet.worksheet('worldcupA')
 
 app = Flask(__name__)
 app.config['DEBUG'] = True
