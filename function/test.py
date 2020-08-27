@@ -8,5 +8,5 @@ webContent.encoding = 'UTF-8'
 soup = BeautifulSoup(webContent.text, 'html.parser')
 
 for i in soup.select('article'):
-    article = i.select('div div span')[4].text
+    article = i.select('div div span')[3].text
     print(article)
