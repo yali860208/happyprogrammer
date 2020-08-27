@@ -122,9 +122,7 @@ def create_dcard_hot_buttoms(ban):
         #     continue
         # else:
         #     pass
-        if article != '回應':
-            pass
-        else:
+        if article == '回應':
             article = i.select('div div span')[3].text
         title = i.select('h2 a span')[0].text
         for j in i.select('h2 a'):
