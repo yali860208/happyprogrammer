@@ -113,13 +113,11 @@ def user_register_flow(user_row, user_col, user_status, userID, userSend):
 
 def worldcupflow(user_worldcup, userSend, user_row):
     nameA, nameB = start_worldcup(user_worldcup, userSend, user_row)
-    if user_worldcup != '1-4':
+    if user_worldcup != 'finished':
         result = create_worldcup_bubble(nameA, nameB)
         message = FlexSendMessage(alt_text='理想型世界盃', contents = result)
     else:
-        result = '四強\n'
-        for i in workSheet_worldcupA.row_values(2*user_row):
-            result += i +'\n'
+        result = '你最喜歡的是：'+ userSend
         message = TextSendMessage(text= result)
     return message
 
