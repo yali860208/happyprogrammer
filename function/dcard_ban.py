@@ -117,7 +117,7 @@ def create_dcard_hot_buttoms(ban):
 
     for i in soup.select('article'):
         tempList = []
-        article = i.select('div div')[5].text
+        article = i.select('div div')[6].text
         if article == '置頂':
             continue
         else:
@@ -125,7 +125,7 @@ def create_dcard_hot_buttoms(ban):
         if article.isdigit() == False:
             pass
         else:
-            article = i.select('div div')[4].text
+            article = i.select('div div')[5].text
         title = i.select('h2 a span')[0].text
         for j in i.select('h2 a'):
             url = 'https://www.dcard.tw' + j['href']
