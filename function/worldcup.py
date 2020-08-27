@@ -96,6 +96,11 @@ def start_worldcup(user_worldcup, userSend, user_row):
         workSheet_worldcupA.update_cell(2*user_row-1,2,userSend)
         nameA = workSheet_worldcupA.cell(2*user_row-1,1).value
         nameB = workSheet_worldcupA.cell(2*user_row-1,2).value
+        workSheet_status.update_cell(user_row,5,'2-3')
+    else:
+        workSheet_worldcupA.update_cell(2*user_row,1,userSend)
+        nameA = 0
+        nameB = 0
         workSheet_status.update_cell(user_row,5,'finished')
     
     
