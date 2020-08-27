@@ -122,9 +122,11 @@ def create_dcard_hot_buttoms(ban):
         #     continue
         # else:
         #     pass
-        if article == '回應':
-            article = i.select('div div span')[3].text
+        # if article == '回應':
+        #     article = i.select('div div span')[3].text
         title = i.select('h2 a span')[0].text
+        if article == title:
+            article = i.select('div div span')[5].text
         for j in i.select('h2 a'):
             url = 'https://www.dcard.tw' + j['href']
         tempList.append(title)
