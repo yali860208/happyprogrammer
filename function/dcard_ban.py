@@ -35,7 +35,7 @@ def create_dcard_quick_replyButtons():
             )
 
     message = TextSendMessage(
-    text='選擇Dcard熱門看板',
+    text='選擇Dcard熱門看板~',
     quick_reply=QuickReply(
         items=itemList
         )
