@@ -1,9 +1,27 @@
-# import requests
-# from bs4 import BeautifulSoup
-# from linebot.models import *
-# import json
-# import copy
+import requests
+from bs4 import BeautifulSoup
+from linebot.models import *
+import json
+import copy
+import gspread
+import random
+from oauth2client.service_account import ServiceAccountCredentials
 
+scope=['https://spreadsheets.google.com/feeds','https://www.googleapis.com/auth/drive']
+creds = ServiceAccountCredentials.from_json_keyfile_name('HP2020-6545eb07aff6.json',scope)
+client = gspread.authorize(creds)
+spreadSheet = client.open('hp2020linebot')
+
+workSheet_status = spreadSheet.worksheet('status')
+workSheet_worldcupQ = spreadSheet.worksheet('worldcupQ')
+workSheet_worldcupA = spreadSheet.worksheet('worldcupA')
+
+user_row = 1
+result = '四強\n'
+for i in workSheet_worldcupA.row_values(2*user_row):
+    result += i +'\n'
+
+print(result)
 
 # def dcard_ban_list():
 #     url = 'https://www.dcard.tw/forum/popular'

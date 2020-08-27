@@ -117,10 +117,10 @@ def worldcupflow(user_worldcup, userSend, user_row):
         result = create_worldcup_bubble(nameA, nameB)
         message = FlexSendMessage(alt_text='理想型世界盃', contents = result)
     else:
-        result = ''
+        result = '四強\n'
         for i in workSheet_worldcupA.row_values(2*user_row):
-            result += result
-        message = TextSendMessage(text=result)
+            result += i +'\n'
+        message = TextSendMessage(text='')
     return message
 
 
