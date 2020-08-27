@@ -68,22 +68,22 @@ def start_worldcup(user_worldcup, userSend, user_row):
         nameA = nameList[0]
         nameB = nameList[1]
     elif user_worldcup == '1-1':
-        workSheet_worldcupA.update_cell(2*user_row,1)
+        workSheet_worldcupA.update_cell(2*user_row,1,userSend)
         nameA = workSheet_worldcupA.cell(2*user_row-1,3).value
         nameB = workSheet_worldcupA.cell(2*user_row-1,4).value
         workSheet_status.update_cell(user_row,5,'1-2')
     elif user_worldcup == '1-2':
-        workSheet_worldcupA.update_cell(2*user_row,2)
+        workSheet_worldcupA.update_cell(2*user_row,2,userSend)
         nameA = workSheet_worldcupA.cell(2*user_row-1,5).value
         nameB = workSheet_worldcupA.cell(2*user_row-1,6).value
         workSheet_status.update_cell(user_row,5,'1-3')
     elif user_worldcup == '1-3':
-        workSheet_worldcupA.update_cell(2*user_row,3)
+        workSheet_worldcupA.update_cell(2*user_row,3,userSend)
         nameA = workSheet_worldcupA.cell(2*user_row-1,7).value
         nameB = workSheet_worldcupA.cell(2*user_row-1,8).value
         workSheet_status.update_cell(user_row,5,'1-4')
     elif user_worldcup == '1-4':
-        workSheet_worldcupA.update_cell(2*user_row,4)
+        workSheet_worldcupA.update_cell(2*user_row,4,userSend)
         nameA = 0
         nameB = 0
         workSheet_status.update_cell(user_row,5,'finish')
