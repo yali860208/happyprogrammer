@@ -9,6 +9,8 @@ soup = BeautifulSoup(webContent.text, 'html.parser')
 
 for i in soup.select('article'):
     article = i.select('div div span')[4].text
-    if article == '回應':
+    title = i.select('h2 a span')[0].text
+
+    for article = title or '回應':
         article = i.select('div div span')[3].text
     print(article)
