@@ -123,7 +123,8 @@ def create_dcard_hot_buttoms(ban):
         # else:
         #     pass
         title = i.select('h2 a span')[0].text
-        
+        if title[0:3] == '#公告':
+            continue
         if article == title:
             article = i.select('div div span')[5].text
         if article == '回應':
