@@ -17,11 +17,8 @@ workSheet_worldcupQ = spreadSheet.worksheet('worldcupQ')
 workSheet_worldcupA = spreadSheet.worksheet('worldcupA')
 
 user_row = 1
-result = '四強\n'
-for i in workSheet_worldcupA.row_values(2*user_row):
-    result += i +'\n'
-
-print(result)
+for i in range(1,9):
+    workSheet_worldcupA.update_cell(2*user_row-1,i,'')
 
 # def dcard_ban_list():
 #     url = 'https://www.dcard.tw/forum/popular'

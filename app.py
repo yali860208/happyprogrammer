@@ -120,7 +120,7 @@ def worldcupflow(user_worldcup, userSend, user_row):
         result = '四強\n'
         for i in workSheet_worldcupA.row_values(2*user_row):
             result += i +'\n'
-        message = TextSendMessage(text='')
+        message = TextSendMessage(text= result)
     return message
 
 
