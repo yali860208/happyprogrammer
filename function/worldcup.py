@@ -51,48 +51,47 @@ def themeList():
 def start_worldcup(user_worldcup, userSend, user_row):
     workSheet_status,workSheet_worldcupQ,workSheet_worldcupA = importworksheet()
     user_row = user_row
-    worldQ_name = workSheet_worldcupQ.find(userSend).row
-    worldQ_url = workSheet_worldcupQ.find(userSend).row + 1
+
     if user_worldcup == 'start':
+        worldQ_name = workSheet_worldcupQ.find(userSend).row
+        worldQ_url = workSheet_worldcupQ.find(userSend).row + 1
         nameList = []
         for i in workSheet_worldcupQ.row_values(worldQ_name)[1:]:
             if i != '':
                 nameList.append(i)
-        workSheet_worldcupA.append_row(nameList,value_input_option=user_row)
+        random.shuffle(nameList)
+        a = 1
+        for name in nameList:
+            workSheet_worldcupA.update_cell(2*user_row-1,a,name)
+            a += 1
         workSheet_status.update_cell(user_row,5,'1-1')
+        nameA = nameList[0]
+        nameB = nameList[1]
     elif user_worldcup == '1-1':
-        nameList = []
-        for i in workSheet_worldcupA.row_values(worldQ_name)[1:]:
-            if i != '':
-                nameList.append(i)
-        workSheet_worldcupA.update_cell(user_row+1,1,userSend)
+        workSheet_worldcupA.update_cell(2*user_row,1)
+        nameA = workSheet_worldcupA.cell(2*user_row-1,3).value
+        nameB = workSheet_worldcupA.cell(2*user_row-1,4).value
         workSheet_status.update_cell(user_row,5,'1-2')
     elif user_worldcup == '1-2':
-        nameList = []
-        for i in workSheet_worldcupA.row_values(worldQ_name)[1:]:
-            if i != '':
-                nameList.append(i)
-        workSheet_worldcupA.update_cell(user_row+1,2,userSend)
+        workSheet_worldcupA.update_cell(2*user_row,2)
+        nameA = workSheet_worldcupA.cell(2*user_row-1,5).value
+        nameB = workSheet_worldcupA.cell(2*user_row-1,6).value
         workSheet_status.update_cell(user_row,5,'1-3')
     elif user_worldcup == '1-3':
-        nameList = []
-        for i in workSheet_worldcupA.row_values(worldQ_name)[1:]:
-            if i != '':
-                nameList.append(i)
-        workSheet_worldcupA.update_cell(user_row+1,3,userSend)
+        workSheet_worldcupA.update_cell(2*user_row,3)
+        nameA = workSheet_worldcupA.cell(2*user_row-1,7).value
+        nameB = workSheet_worldcupA.cell(2*user_row-1,8).value
         workSheet_status.update_cell(user_row,5,'1-4')
     elif user_worldcup == '1-4':
-        nameList = []
-        for i in workSheet_worldcupA.row_values(worldQ_name)[1:]:
-            if i != '':
-                nameList.append(i)
-        workSheet_worldcupA.update_cell(user_row+1,4,userSend)
-        workSheet_status.update_cell(user_row,5,'2-1')
+        workSheet_worldcupA.update_cell(2*user_row,4)
+        nameA = 0
+        nameB = 0
+        workSheet_status.update_cell(user_row,5,'finish')
     
-    return nameList
+    return nameA, nameB
 
 
-def create_worldcup_bubble(nameList):
+def create_worldcup_bubble(nameA,nameB):
     template_base = json.loads('''
       {
         "type": "carousel",
@@ -158,13 +157,7 @@ def create_worldcup_bubble(nameList):
     ''')
 
     workSheet_status,workSheet_worldcupQ,workSheet_worldcupA = importworksheet()
-    random.shuffle(nameList)
-    nameA = nameList[0]
-    nameB = nameList[1]
-    nameList.remove(nameA)
-    nameList.remove(nameB)
-    workSheet_worldcupA.delete_row(1)
-    workSheet_worldcupA.append_row(nameList,value_input_option=1)
+
     for cell in [nameA,nameB]:
         template_card = copy.deepcopy(raw_template_card)
         name_col = workSheet_worldcupQ.find(cell).col
