@@ -65,12 +65,12 @@ message = TextSendMessage(
 
 ### 成果展示
 
-![](https://i.imgur.com/icdMlww.png =50%x)
+![](https://i.imgur.com/icdMlww.png)
 
 ## 3. pchome 跟老師合作
 
-![](https://i.imgur.com/KgRiV9u.png =80%x)
-![](https://i.imgur.com/Lfit7DX.png =80%x)
+![](https://i.imgur.com/KgRiV9u.pn)
+![](https://i.imgur.com/Lfit7DX.png)
 
 
 ### 使用工具
@@ -81,7 +81,7 @@ message = TextSendMessage(
 
 ### 成果展示
 
-![](https://i.imgur.com/LqE5mjO.png =50%x)
+![](https://i.imgur.com/LqE5mjO.png)
 
 ## 4. Dcard
 
@@ -96,8 +96,8 @@ message = TextSendMessage(
 
 1. Dcard對ngrok施了魔咒
 - 我的json檔直接跑掉!!!
-![](https://i.imgur.com/9PTu0rT.png =50%x)
-![](https://i.imgur.com/xJ0MrQ1.png =50%x)
+![](https://i.imgur.com/9PTu0rT.png)
+![](https://i.imgur.com/xJ0MrQ1.pn)
 
 2. Dcard對Heroku施了魔咒
 - 文章跑掉
@@ -131,9 +131,9 @@ for i in soup.select('article'):
 <br>
 
 ### 成果展示
-![](https://i.imgur.com/LIRoYKb.png =50%x)
+![](https://i.imgur.com/LIRoYKb.png)
 
-![](https://i.imgur.com/Zgccus2.png =50%x)
+![](https://i.imgur.com/Zgccus2.png)
 
 
 ## 5. 二選一
