@@ -112,7 +112,7 @@ for i in soup.select('article'):
     print('------------------------')
 ```
 ![](https://i.imgur.com/k1z9rqb.png)
-![](https://i.imgur.com/2qA5P7x.png =50%x)
+![](https://i.imgur.com/2qA5P7x.png)
 
 ```python=
 for i in soup.select('article'):
